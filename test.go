@@ -344,21 +344,23 @@ func (manager *EnclaveManager) Clean(ctx context.Context, shouldCleanAll bool) (
 	for phaseTitle, cleaningFunc := range cleaningPhaseFunctions {
 		logrus.Infof("Cleaning %v...", phaseTitle)
 		successfullyRemovedArtifactIds, removalErrors, err := cleaningFunc()
-		// PRESSING ">>" ON THIS LINE ONLY INDENTS 4 CHARACTERS
+		// PRESSING ">>" ON THIS LINE PROPERLY INDENTS BY 1 TAB CHARACTER
 		if err != nil {
-			// BUT ">>" ON THIS LINE INDENTS 5
+			// BUT ">>" ON THIS LINE INCORRECTLY INDENTS 1 TAB AND 1 SPACE, AND "<<" DEINDENTS BY 1 TAB PLUS 1 SPACE
 			phaseErrors[phaseTitle] = stacktrace.Propagate(
-				// AND "<<" HERE ONLY DEINDENTS 3 CHARACTERS
+				// SAME PROBLEM HERE
 				err,
-				// SAME 3-DEINDENT PROBLEM HERE
+				// SAME PROBLEM HERE
 				"An error occurred while calling the cleaning function",
 			)
 			continue
-		// BUT DEINDENTING THIS DOES THE PROPER 4-SPACE DEINDENT
+		// BUT NOT THE SAME PROBLEM HERE
 		}
 
+		// NO PROBLEM HERE
 		if len(successfullyRemovedArtifactIds) > 0 {
 
+			// SAME PROBLEM HERE
 			artifactIDs := map[string]bool{}
 			logrus.Infof("Successfully removed the following %v:", phaseTitle)
 			sort.Strings(successfullyRemovedArtifactIds)
